@@ -1,0 +1,39 @@
+body{
+
+    background:#eef3f8;
+
+}
+
+.logo{
+
+    width:170px;
+
+}
+
+.sombra{
+
+    border:none;
+
+    border-radius:20px;
+
+    box-shadow:0px 5px 20px rgba(0,0,0,.15);
+
+}
+
+.card{
+
+    padding:20px;
+
+}
+
+.btn{
+
+    border-radius:12px;
+
+}
+
+.form-control{
+
+    border-radius:12px;
+
+}
