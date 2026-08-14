@@ -1,122 +1,230 @@
 // ==========================================
-// ENDOCOL - PÁGINA PRINCIPAL
+// ENDOCOL - SISTEMA PRINCIPAL
 // ==========================================
 
-(function () {
-    "use strict";
-
-    document.addEventListener("DOMContentLoaded", function () {
-        const campoCodigo = document.getElementById("txtCodigo");
-        const btnBuscar = document.getElementById("btnBuscar");
-
-        function buscarProducto() {
-            const codigo = campoCodigo.value.trim();
-
-            if (!codigo) {
-                alert("Ingrese el código del material.");
-                campoCodigo.focus();
-                return;
-            }
-
-            window.location.href =
-                "producto.html?codigo=" + encodeURIComponent(codigo);
-        }
-
-        if (btnBuscar) {
-            btnBuscar.addEventListener("click", buscarProducto);
-        }
-
-        if (campoCodigo) {
-            campoCodigo.addEventListener("keydown", function (event) {
-                if (event.key === "Enter") {
-                    event.preventDefault();
-                    buscarProducto();
-                }
-            });
-        }
-    });
-})();
-// ==========================================
-// ENDOCOL - DASHBOARD DE INVENTARIO
-// ==========================================
-
-(function () {
+document.addEventListener("DOMContentLoaded", function () {
 
     "use strict";
 
-    const API =
-        "https://script.google.com/macros/s/AKfycbw3N9ndbQ5cAAnRFxBp3Cnb1Jsq0Dbg9ePUQWwmkdKkqgyUdNGQa0K5otg-O4Iezw3A/exec";
+
+    // ==========================================
+    // ELEMENTOS PRINCIPALES
+    // ==========================================
+
+    const txtCodigo =
+        document.getElementById("txtCodigo");
+
+    const btnBuscar =
+        document.getElementById("btnBuscar");
+
+    const btnNuevaMateria =
+        document.getElementById("btnNuevaMateria");
+
+    const btnEscanear =
+        document.getElementById("btnEscanear");
 
 
     // ==========================================
-    // INICIAR DASHBOARD
+    // BUSCAR PRODUCTO
     // ==========================================
 
-    document.addEventListener(
-        "DOMContentLoaded",
-        function () {
+    function buscarProducto() {
 
-            cargarDashboard();
-
+        if (!txtCodigo) {
+            return;
         }
-    );
 
 
-    // ==========================================
-    // CONSULTAR INVENTARIO
-    // ==========================================
+        const codigo =
+            txtCodigo.value
+                .trim()
+                .toUpperCase();
 
-    function cargarDashboard() {
 
-        const mensaje =
-            document.getElementById(
-                "dashboardMensaje"
+        if (!codigo) {
+
+            alert(
+                "Ingrese el código del material."
             );
 
-        const contenido =
-            document.getElementById(
-                "dashboardContenido"
-            );
-
-
-        if (!mensaje || !contenido) {
+            txtCodigo.focus();
 
             return;
 
         }
 
 
-        mensaje.style.display =
-            "block";
+        window.location.href =
+            "producto.html?codigo=" +
+            encodeURIComponent(codigo);
 
-        mensaje.textContent =
-            "Consultando inventario...";
-
-
-        contenido.style.display =
-            "none";
+    }
 
 
-        /*
-         * IMPORTANTE:
-         * Usamos una acción nueva de la API:
-         *
-         * accion=inventario
-         *
-         */
+    // ==========================================
+    // BOTÓN BUSCAR
+    // ==========================================
 
-        const url =
-            API +
-            "?accion=inventario";
+    if (btnBuscar) {
+
+        btnBuscar.addEventListener(
+            "click",
+            buscarProducto
+        );
+
+    }
 
 
-        fetch(url, {
+    // ==========================================
+    // ENTER EN CÓDIGO
+    // ==========================================
+
+    if (txtCodigo) {
+
+        txtCodigo.addEventListener(
+            "keydown",
+            function (evento) {
+
+                if (
+                    evento.key ===
+                    "Enter"
+                ) {
+
+                    buscarProducto();
+
+                }
+
+            }
+        );
+
+    }
+
+
+    // ==========================================
+    // NUEVA MATERIA PRIMA
+    // ==========================================
+
+    if (btnNuevaMateria) {
+
+        btnNuevaMateria.addEventListener(
+            "click",
+            function () {
+
+                window.location.href =
+                    "nueva-materia.html";
+
+            }
+        );
+
+    }
+
+
+    // ==========================================
+    // ESCANEAR QR
+    // ==========================================
+
+    if (btnEscanear) {
+
+        btnEscanear.addEventListener(
+            "click",
+            function () {
+
+                alert(
+                    "Escanea el QR con la cámara normal del celular. " +
+                    "El QR abrirá directamente la ficha del material."
+                );
+
+            }
+        );
+
+    }
+
+
+    // ==========================================
+    // DASHBOARD
+    // ==========================================
+
+    cargarDashboard();
+
+
+});
+
+
+// ==========================================
+// CONFIGURACIÓN API
+// ==========================================
+
+const API_INVENTARIO =
+    "https://script.google.com/macros/s/AKfycbw3N9ndbQ5cAAnRFxBp3Cnb1Jsq0Dbg9ePUQWwmkdKkqgyUdNGQa0K5otg-O4Iezw3A/exec";
+
+
+// ==========================================
+// CARGAR DASHBOARD
+// ==========================================
+
+function cargarDashboard() {
+
+    const mensaje =
+        document.getElementById(
+            "dashboardMensaje"
+        );
+
+    const contenido =
+        document.getElementById(
+            "dashboardContenido"
+        );
+
+
+    // Si estamos en una página
+    // que no tiene Dashboard,
+    // simplemente no hacemos nada.
+
+    if (
+        !mensaje ||
+        !contenido
+    ) {
+
+        return;
+
+    }
+
+
+    mensaje.style.display =
+        "block";
+
+    mensaje.className =
+        "dashboard-loading";
+
+    mensaje.textContent =
+        "Consultando inventario...";
+
+
+    contenido.style.display =
+        "none";
+
+
+    const url =
+        API_INVENTARIO +
+        "?accion=inventario";
+
+
+    console.log(
+        "Consultando Dashboard:",
+        url
+    );
+
+
+    fetch(
+        url,
+        {
             method: "GET",
             cache: "no-store"
-        })
+        }
+    )
 
 
-        .then(function (respuesta) {
+    .then(
+        function (respuesta) {
 
             if (!respuesta.ok) {
 
@@ -130,13 +238,15 @@
 
             return respuesta.json();
 
-        })
+        }
+    )
 
 
-        .then(function (datos) {
+    .then(
+        function (datos) {
 
             console.log(
-                "Dashboard - respuesta API:",
+                "Respuesta Dashboard:",
                 datos
             );
 
@@ -166,10 +276,12 @@
             contenido.style.display =
                 "block";
 
-        })
+        }
+    )
 
 
-        .catch(function (error) {
+    .catch(
+        function (error) {
 
             console.error(
                 "Error Dashboard:",
@@ -189,72 +301,64 @@
             mensaje.style.display =
                 "block";
 
-        });
+        }
+    );
 
-    }
-
-
-    // ==========================================
-    // PROCESAR INVENTARIO
-    // ==========================================
-
-    function procesarDashboard(
-        productos
-    ) {
+}
 
 
-        let total =
-            productos.length;
+// ==========================================
+// PROCESAR DATOS
+// ==========================================
+
+function procesarDashboard(
+    productos
+) {
 
 
-        let normal =
-            0;
-
-        let porAgotarse =
-            0;
-
-        let agotado =
-            0;
-
-        let sobrestock =
-            0;
+    let total =
+        productos.length;
 
 
-        const alertas =
-            [];
+    let normal =
+        0;
+
+    let porAgotarse =
+        0;
+
+    let agotado =
+        0;
+
+    let sobrestock =
+        0;
 
 
-        productos.forEach(
-            function (producto) {
+    const alertas =
+        [];
 
 
-                const estado =
-                    String(
-                        producto.estado ||
-                        ""
-                    )
-                    .trim()
-                    .toUpperCase();
+    productos.forEach(
+        function (producto) {
+
+            const estado =
+                String(
+                    producto.estado || ""
+                )
+                .trim()
+                .toUpperCase();
 
 
-                // ==================================
-                // CONTADORES
-                // ==================================
+            switch (estado) {
 
-                if (
-                    estado ===
-                    "NORMAL"
-                ) {
+
+                case "NORMAL":
 
                     normal++;
 
-                }
+                    break;
 
 
-                else if (
-                    estado ===
-                    "POR AGOTARSE"
-                ) {
+                case "POR AGOTARSE":
 
                     porAgotarse++;
 
@@ -262,13 +366,10 @@
                         producto
                     );
 
-                }
+                    break;
 
 
-                else if (
-                    estado ===
-                    "AGOTADO"
-                ) {
+                case "AGOTADO":
 
                     agotado++;
 
@@ -276,314 +377,306 @@
                         producto
                     );
 
-                }
+                    break;
 
 
-                else if (
-                    estado ===
-                    "SOBRESTOCK"
-                ) {
+                case "SOBRESTOCK":
 
                     sobrestock++;
 
-                }
+                    break;
 
             }
-        );
-
-
-        // ==========================================
-        // ACTUALIZAR INDICADORES
-        // ==========================================
-
-        colocarTexto(
-            "totalMaterias",
-            total
-        );
-
-
-        colocarTexto(
-            "totalNormal",
-            normal
-        );
-
-
-        colocarTexto(
-            "totalPorAgotarse",
-            porAgotarse
-        );
-
-
-        colocarTexto(
-            "totalAgotado",
-            agotado
-        );
-
-
-        colocarTexto(
-            "totalSobrestock",
-            sobrestock
-        );
-
-
-        // ==========================================
-        // ORDENAR ALERTAS
-        // AGOTADO PRIMERO
-        // ==========================================
-
-        alertas.sort(
-            function (a, b) {
-
-                const estadoA =
-                    String(
-                        a.estado || ""
-                    )
-                    .toUpperCase();
-
-
-                const estadoB =
-                    String(
-                        b.estado || ""
-                    )
-                    .toUpperCase();
-
-
-                if (
-                    estadoA ===
-                    "AGOTADO" &&
-                    estadoB !==
-                    "AGOTADO"
-                ) {
-
-                    return -1;
-
-                }
-
-
-                if (
-                    estadoB ===
-                    "AGOTADO" &&
-                    estadoA !==
-                    "AGOTADO"
-                ) {
-
-                    return 1;
-
-                }
-
-
-                return 0;
-
-            }
-        );
-
-
-        // ==========================================
-        // MOSTRAR TABLA
-        // ==========================================
-
-        mostrarAlertas(
-            alertas
-        );
-
-    }
-
-
-    // ==========================================
-    // COLOCAR TEXTO
-    // ==========================================
-
-    function colocarTexto(
-        id,
-        valor
-    ) {
-
-        const elemento =
-            document.getElementById(
-                id
-            );
-
-
-        if (elemento) {
-
-            elemento.textContent =
-                valor;
 
         }
+    );
 
-    }
+
+    // ==========================================
+    // INDICADORES
+    // ==========================================
+
+    colocarTexto(
+        "totalMaterias",
+        total
+    );
+
+
+    colocarTexto(
+        "totalNormal",
+        normal
+    );
+
+
+    colocarTexto(
+        "totalPorAgotarse",
+        porAgotarse
+    );
+
+
+    colocarTexto(
+        "totalAgotado",
+        agotado
+    );
+
+
+    colocarTexto(
+        "totalSobrestock",
+        sobrestock
+    );
 
 
     // ==========================================
     // TABLA DE ALERTAS
     // ==========================================
 
-    function mostrarAlertas(
-        productos
+    mostrarAlertas(
+        alertas
+    );
+
+}
+
+
+// ==========================================
+// COLOCAR TEXTO
+// ==========================================
+
+function colocarTexto(
+    id,
+    valor
+) {
+
+    const elemento =
+        document.getElementById(
+            id
+        );
+
+
+    if (elemento) {
+
+        elemento.textContent =
+            valor;
+
+    }
+
+}
+
+
+// ==========================================
+// MOSTRAR ALERTAS
+// ==========================================
+
+function mostrarAlertas(
+    productos
+) {
+
+    const tabla =
+        document.getElementById(
+            "tablaAlertas"
+        );
+
+
+    if (!tabla) {
+
+        return;
+
+    }
+
+
+    tabla.innerHTML =
+        "";
+
+
+    if (
+        productos.length ===
+        0
     ) {
 
-        const tabla =
-            document.getElementById(
-                "tablaAlertas"
-            );
+        tabla.innerHTML = `
+            <tr>
+                <td
+                    colspan="5"
+                    class="text-center text-success"
+                >
+                    ✅ No hay materias primas que requieran atención.
+                </td>
+            </tr>
+        `;
+
+        return;
+
+    }
 
 
-        if (!tabla) {
+    // AGOTADOS PRIMERO
 
-            return;
+    productos.sort(
+        function (a, b) {
 
-        }
-
-
-        tabla.innerHTML =
-            "";
-
-
-        if (
-            productos.length ===
-            0
-        ) {
-
-            tabla.innerHTML = `
-                <tr>
-                    <td
-                        colspan="5"
-                        class="text-center text-success"
-                    >
-                        ✅ No hay materias primas que requieran atención.
-                    </td>
-                </tr>
-            `;
-
-            return;
-
-        }
+            const estadoA =
+                String(
+                    a.estado || ""
+                )
+                .toUpperCase();
 
 
-        productos.forEach(
-            function (producto) {
+            const estadoB =
+                String(
+                    b.estado || ""
+                )
+                .toUpperCase();
 
 
-                const estado =
-                    String(
-                        producto.estado ||
-                        ""
-                    )
-                    .trim()
-                    .toUpperCase();
+            if (
+                estadoA ===
+                "AGOTADO" &&
+                estadoB !==
+                "AGOTADO"
+            ) {
 
-
-                let claseEstado =
-                    "";
-
-
-                if (
-                    estado ===
-                    "AGOTADO"
-                ) {
-
-                    claseEstado =
-                        "estado-agotado";
-
-                }
-
-
-                else if (
-                    estado ===
-                    "POR AGOTARSE"
-                ) {
-
-                    claseEstado =
-                        "estado-agotarse";
-
-                }
-
-
-                const fila =
-                    document.createElement(
-                        "tr"
-                    );
-
-
-                fila.innerHTML = `
-
-                    <td>
-                        <strong>
-                            ${escapeHTML(
-                                producto.codigo
-                            )}
-                        </strong>
-                    </td>
-
-                    <td>
-                        ${escapeHTML(
-                            producto.descripcion
-                        )}
-                    </td>
-
-                    <td>
-                        ${escapeHTML(
-                            producto.stock
-                        )}
-                    </td>
-
-                    <td>
-                        ${escapeHTML(
-                            producto.stockMinimo
-                        )}
-                    </td>
-
-                    <td class="${claseEstado}">
-                        ${escapeHTML(
-                            estado
-                        )}
-                    </td>
-
-                `;
-
-
-                tabla.appendChild(
-                    fila
-                );
+                return -1;
 
             }
-        );
-
-    }
 
 
-    // ==========================================
-    // SEGURIDAD HTML
-    // ==========================================
+            if (
+                estadoB ===
+                "AGOTADO" &&
+                estadoA !==
+                "AGOTADO"
+            ) {
 
-    function escapeHTML(
-        valor
-    ) {
+                return 1;
 
-        return String(
-            valor ?? ""
-        )
-        .replace(
-            /&/g,
-            "&amp;"
-        )
-        .replace(
-            /</g,
-            "&lt;"
-        )
-        .replace(
-            />/g,
-            "&gt;"
-        )
-        .replace(
-            /"/g,
-            "&quot;"
-        )
-        .replace(
-            /'/g,
-            "&#039;"
-        );
+            }
 
-    }
 
-})();
+            return 0;
+
+        }
+    );
+
+
+    productos.forEach(
+        function (producto) {
+
+            const estado =
+                String(
+                    producto.estado || ""
+                )
+                .trim()
+                .toUpperCase();
+
+
+            let clase =
+                "";
+
+
+            if (
+                estado ===
+                "AGOTADO"
+            ) {
+
+                clase =
+                    "estado-agotado";
+
+            }
+
+
+            else if (
+                estado ===
+                "POR AGOTARSE"
+            ) {
+
+                clase =
+                    "estado-agotarse";
+
+            }
+
+
+            const fila =
+                document.createElement(
+                    "tr"
+                );
+
+
+            fila.innerHTML = `
+
+                <td>
+                    <strong>
+                        ${escapeHTML(
+                            producto.codigo
+                        )}
+                    </strong>
+                </td>
+
+                <td>
+                    ${escapeHTML(
+                        producto.descripcion
+                    )}
+                </td>
+
+                <td>
+                    ${escapeHTML(
+                        producto.stock
+                    )}
+                </td>
+
+                <td>
+                    ${escapeHTML(
+                        producto.stockMinimo
+                    )}
+                </td>
+
+                <td class="${clase}">
+                    ${escapeHTML(
+                        estado
+                    )}
+                </td>
+
+            `;
+
+
+            tabla.appendChild(
+                fila
+            );
+
+        }
+    );
+
+}
+
+
+// ==========================================
+// SEGURIDAD
+// ==========================================
+
+function escapeHTML(
+    valor
+) {
+
+    return String(
+        valor ?? ""
+    )
+    .replace(
+        /&/g,
+        "&amp;"
+    )
+    .replace(
+        /</g,
+        "&lt;"
+    )
+    .replace(
+        />/g,
+        "&gt;"
+    )
+    .replace(
+        /"/g,
+        "&quot;"
+    )
+    .replace(
+        /'/g,
+        "&#039;"
+    );
+
+}
