@@ -20,7 +20,7 @@
     >
 
 
-    <!-- Estilos ENDOCOL -->
+    <!-- Estilos propios -->
     <link
         rel="stylesheet"
         href="css/style.css"
@@ -29,9 +29,9 @@
 
     <style>
 
-        /* ======================================
+        /* ==========================================
            DASHBOARD
-        ====================================== */
+        ========================================== */
 
         .dashboard-card {
 
@@ -40,18 +40,9 @@
             border-radius: 15px;
 
             box-shadow:
-                0 3px 12px rgba(0, 0, 0, 0.08);
+                0 3px 12px rgba(0,0,0,0.08);
 
-            transition:
-                transform 0.15s ease;
-
-        }
-
-
-        .dashboard-card:hover {
-
-            transform:
-                translateY(-2px);
+            height: 100%;
 
         }
 
@@ -74,9 +65,9 @@
         }
 
 
-        /* ======================================
+        /* ==========================================
            ESTADOS
-        ====================================== */
+        ========================================== */
 
         .estado-normal {
 
@@ -114,9 +105,9 @@
         }
 
 
-        /* ======================================
+        /* ==========================================
            TABLA
-        ====================================== */
+        ========================================== */
 
         .tabla-dashboard {
 
@@ -132,11 +123,11 @@
         }
 
 
-        /* ======================================
-           BOTÓN QR
-        ====================================== */
+        /* ==========================================
+           BOTONES PRINCIPALES
+        ========================================== */
 
-        .btn-qr {
+        .boton-principal {
 
             min-height: 52px;
 
@@ -145,9 +136,9 @@
         }
 
 
-        /* ======================================
-           CARGANDO
-        ====================================== */
+        /* ==========================================
+           DASHBOARD CARGANDO
+        ========================================== */
 
         .dashboard-loading {
 
@@ -167,329 +158,387 @@
 <body>
 
 
-<div class="container py-3">
+<div class="container">
 
 
-    <!-- ======================================
-         ENCABEZADO
-    ====================================== -->
+    <!-- ==========================================
+         CABECERA
+    ========================================== -->
 
-    <div class="text-center mb-4">
+    <div class="row justify-content-center">
 
-        <h2 class="fw-bold">
-            ENDOCOL
-        </h2>
+        <div class="col-md-7">
 
-        <p class="text-muted mb-0">
-            Sistema de Inventario
-        </p>
 
-    </div>
+            <div class="card sombra mt-4 mb-4">
 
 
-    <!-- ======================================
-         ACCESO AL ESCÁNER
-    ====================================== -->
+                <div class="card-body text-center">
 
-    <div class="card shadow-sm mb-4">
 
-        <div class="card-body">
+                    <!-- LOGO -->
 
-            <h5 class="mb-3">
-                Consulta de materia prima
-            </h5>
-
-
-            <div class="input-group">
-
-                <input
-                    type="text"
-                    id="txtBuscarCodigo"
-                    class="form-control"
-                    placeholder="Ingrese código MP001"
-                    autocomplete="off"
-                >
-
-
-                <button
-                    id="btnBuscar"
-                    class="btn btn-primary"
-                    type="button"
-                >
-
-                    Buscar
-
-                </button>
-
-            </div>
-
-
-            <button
-                id="btnEscanear"
-                class="btn btn-success w-100 btn-qr mt-3"
-                type="button"
-            >
-
-                📷 Escanear código QR
-
-            </button>
-
-        </div>
-
-    </div>
-
-
-    <!-- ======================================
-         DASHBOARD
-    ====================================== -->
-
-    <h4 class="fw-bold mb-3">
-        📊 Estado del inventario
-    </h4>
-
-
-    <div
-        id="dashboardMensaje"
-        class="dashboard-loading"
-    >
-
-        Consultando inventario...
-
-    </div>
-
-
-    <div
-        id="dashboardContenido"
-        style="display:none;"
-    >
-
-
-        <!-- ==================================
-             INDICADORES
-        ================================== -->
-
-        <div class="row g-3 mb-4">
-
-
-            <!-- TOTAL -->
-
-            <div class="col-6 col-md-3">
-
-                <div
-                    class="card dashboard-card h-100"
-                >
-
-                    <div class="card-body">
-
-                        <div
-                            class="dashboard-number"
-                            id="totalMaterias"
-                        >
-                            0
-                        </div>
-
-                        <div class="dashboard-label">
-                            Total materias primas
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <!-- NORMAL -->
-
-            <div class="col-6 col-md-3">
-
-                <div
-                    class="card dashboard-card h-100"
-                >
-
-                    <div class="card-body">
-
-                        <div
-                            class="dashboard-number text-success"
-                            id="totalNormal"
-                        >
-                            0
-                        </div>
-
-                        <div class="dashboard-label">
-                            🟢 Normal
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <!-- POR AGOTARSE -->
-
-            <div class="col-6 col-md-3">
-
-                <div
-                    class="card dashboard-card h-100"
-                >
-
-                    <div class="card-body">
-
-                        <div
-                            class="dashboard-number text-warning"
-                            id="totalPorAgotarse"
-                        >
-                            0
-                        </div>
-
-                        <div class="dashboard-label">
-                            🟡 Por agotarse
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <!-- AGOTADO -->
-
-            <div class="col-6 col-md-3">
-
-                <div
-                    class="card dashboard-card h-100"
-                >
-
-                    <div class="card-body">
-
-                        <div
-                            class="dashboard-number text-danger"
-                            id="totalAgotado"
-                        >
-                            0
-                        </div>
-
-                        <div class="dashboard-label">
-                            🔴 Agotado
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
-        </div>
-
-
-        <!-- ==================================
-             SEGUNDA FILA
-        ================================== -->
-
-        <div class="row g-3 mb-4">
-
-
-            <!-- SOBRESTOCK -->
-
-            <div class="col-6 col-md-3">
-
-                <div
-                    class="card dashboard-card h-100"
-                >
-
-                    <div class="card-body">
-
-                        <div
-                            class="dashboard-number text-primary"
-                            id="totalSobrestock"
-                        >
-                            0
-                        </div>
-
-                        <div class="dashboard-label">
-                            🔵 Sobrestock
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
-        </div>
-
-
-        <!-- ==================================
-             MATERIAS PRIMAS A REVISAR
-        ================================== -->
-
-        <div class="card dashboard-card mb-4">
-
-            <div class="card-body">
-
-
-                <h5 class="fw-bold mb-3">
-
-                    ⚠️ Materias primas que requieren atención
-
-                </h5>
-
-
-                <div class="table-responsive">
-
-                    <table
-                        class="table table-sm table-hover align-middle tabla-dashboard"
+                    <img
+                        src="img/logo.png"
+                        class="logo"
+                        onerror="this.style.display='none'"
+                        alt="ENDOCOL"
                     >
 
-                        <thead>
 
-                            <tr>
-
-                                <th>
-                                    Código
-                                </th>
-
-                                <th>
-                                    Materia prima
-                                </th>
-
-                                <th>
-                                    Stock
-                                </th>
-
-                                <th>
-                                    Mínimo
-                                </th>
-
-                                <th>
-                                    Estado
-                                </th>
-
-                            </tr>
-
-                        </thead>
+                    <h2 class="mt-3">
+                        ENDOCOL
+                    </h2>
 
 
-                        <tbody
-                            id="tablaAlertas"
-                        >
+                    <p class="text-secondary">
+                        Sistema de Inventario
+                    </p>
 
-                        </tbody>
 
-                    </table>
+                    <!-- ==================================
+                         ESCANEAR QR
+                    ================================== -->
+
+                    <button
+                        class="btn btn-primary btn-lg w-100 mt-4 boton-principal"
+                        id="btnEscanear"
+                        type="button"
+                    >
+
+                        📷 Escanear QR
+
+                    </button>
+
+
+                    <div class="my-3">
+
+                        <strong>
+                            o
+                        </strong>
+
+                    </div>
+
+
+                    <!-- ==================================
+                         BUSCAR CÓDIGO
+                    ================================== -->
+
+                    <input
+                        type="text"
+                        id="txtCodigo"
+                        class="form-control form-control-lg"
+                        placeholder="Código del material"
+                        autocomplete="off"
+                    >
+
+
+                    <button
+                        class="btn btn-success btn-lg w-100 mt-3 boton-principal"
+                        id="btnBuscar"
+                        type="button"
+                    >
+
+                        🔎 Buscar producto
+
+                    </button>
+
+
+                    <!-- ==================================
+                         NUEVA MATERIA PRIMA
+                    ================================== -->
+
+                    <button
+                        class="btn btn-outline-primary btn-lg w-100 mt-3 boton-principal"
+                        id="btnNuevaMateria"
+                        type="button"
+                    >
+
+                        ➕ Nueva materia prima
+
+                    </button>
+
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ==========================================
+         DASHBOARD
+    ========================================== -->
+
+    <div class="row justify-content-center">
+
+        <div class="col-md-10">
+
+
+            <h4 class="fw-bold mb-3">
+
+                📊 Estado del inventario
+
+            </h4>
+
+
+            <!-- MENSAJE CARGANDO -->
+
+            <div
+                id="dashboardMensaje"
+                class="dashboard-loading"
+            >
+
+                Consultando inventario...
+
+            </div>
+
+
+            <!-- CONTENIDO DASHBOARD -->
+
+            <div
+                id="dashboardContenido"
+                style="display:none;"
+            >
+
+
+                <!-- ==================================
+                     INDICADORES
+                ================================== -->
+
+                <div class="row g-3 mb-4">
+
+
+                    <!-- TOTAL -->
+
+                    <div class="col-6 col-md-3">
+
+                        <div class="card dashboard-card">
+
+                            <div class="card-body">
+
+                                <div
+                                    class="dashboard-number"
+                                    id="totalMaterias"
+                                >
+                                    0
+                                </div>
+
+                                <div class="dashboard-label">
+
+                                    Total materias primas
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- NORMAL -->
+
+                    <div class="col-6 col-md-3">
+
+                        <div class="card dashboard-card">
+
+                            <div class="card-body">
+
+                                <div
+                                    class="dashboard-number text-success"
+                                    id="totalNormal"
+                                >
+                                    0
+                                </div>
+
+                                <div class="dashboard-label">
+
+                                    🟢 Normal
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- POR AGOTARSE -->
+
+                    <div class="col-6 col-md-3">
+
+                        <div class="card dashboard-card">
+
+                            <div class="card-body">
+
+                                <div
+                                    class="dashboard-number text-warning"
+                                    id="totalPorAgotarse"
+                                >
+                                    0
+                                </div>
+
+                                <div class="dashboard-label">
+
+                                    🟡 Por agotarse
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- AGOTADO -->
+
+                    <div class="col-6 col-md-3">
+
+                        <div class="card dashboard-card">
+
+                            <div class="card-body">
+
+                                <div
+                                    class="dashboard-number text-danger"
+                                    id="totalAgotado"
+                                >
+                                    0
+                                </div>
+
+                                <div class="dashboard-label">
+
+                                    🔴 Agotado
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+
+
+                <!-- ==================================
+                     SEGUNDA FILA
+                ================================== -->
+
+                <div class="row g-3 mb-4">
+
+
+                    <!-- SOBRESTOCK -->
+
+                    <div class="col-6 col-md-3">
+
+                        <div class="card dashboard-card">
+
+                            <div class="card-body">
+
+                                <div
+                                    class="dashboard-number text-primary"
+                                    id="totalSobrestock"
+                                >
+                                    0
+                                </div>
+
+                                <div class="dashboard-label">
+
+                                    🔵 Sobrestock
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+
+
+                <!-- ==================================
+                     ALERTAS
+                ================================== -->
+
+                <div class="card dashboard-card mb-5">
+
+                    <div class="card-body">
+
+
+                        <h5 class="fw-bold mb-3">
+
+                            ⚠️ Materias primas que requieren atención
+
+                        </h5>
+
+
+                        <div class="table-responsive">
+
+                            <table
+                                class="table table-sm table-hover align-middle tabla-dashboard"
+                            >
+
+                                <thead>
+
+                                    <tr>
+
+                                        <th>
+                                            Código
+                                        </th>
+
+                                        <th>
+                                            Materia prima
+                                        </th>
+
+                                        <th>
+                                            Stock
+                                        </th>
+
+                                        <th>
+                                            Mínimo
+                                        </th>
+
+                                        <th>
+                                            Estado
+                                        </th>
+
+                                    </tr>
+
+                                </thead>
+
+
+                                <tbody
+                                    id="tablaAlertas"
+                                >
+
+                                </tbody>
+
+                            </table>
+
+                        </div>
+
+
+                    </div>
 
                 </div>
 
 
             </div>
 
-        </div>
 
+        </div>
 
     </div>
 
@@ -497,8 +546,9 @@
 </div>
 
 
+
 <!-- ==========================================
-     JAVASCRIPT
+     JAVASCRIPT PRINCIPAL
 ========================================== -->
 
 <script src="js/app.js"></script>
